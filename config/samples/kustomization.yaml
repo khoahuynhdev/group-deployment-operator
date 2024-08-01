@@ -1,0 +1,4 @@
+## Append samples of your project ##
+resources:
+- multideployment_v1_groupdeployment.yaml
+# +kubebuilder:scaffold:manifestskustomizesamples

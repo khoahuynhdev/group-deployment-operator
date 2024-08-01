@@ -1,0 +1,23 @@
+# permissions for end users to view groupdeployments.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: group-deployment-operator
+    app.kubernetes.io/managed-by: kustomize
+  name: groupdeployment-viewer-role
+rules:
+- apiGroups:
+  - multideployment.xplatform.api
+  resources:
+  - groupdeployments
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - multideployment.xplatform.api
+  resources:
+  - groupdeployments/status
+  verbs:
+  - get
