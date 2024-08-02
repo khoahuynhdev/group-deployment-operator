@@ -47,10 +47,18 @@ type GroupDeploymentReconciler struct {
 // For more details, check Reconcile and its Result here:
 // - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.18.4/pkg/reconcile
 func (r *GroupDeploymentReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	_ = log.FromContext(ctx)
-
-	// TODO(user): your logic here
-
+	log := log.FromContext(ctx)
+	groupDeployment := &multideploymentv1.GroupDeployment{}
+	if err := r.Get(ctx, req.NamespacedName, groupDeployment); err != nil {
+		log.Error(err, "Failed to get object")
+		return ctrl.Result{}, client.IgnoreNotFound(err)
+	} else {
+		if err = r.EnsureDeployment(ctx, groupDeployment); err != nil {
+			log.Error(err, "Failed to ensure deployment")
+			return ctrl.Result{}, err
+		}
+	}
+	// create deployments
 	return ctrl.Result{}, nil
 }
 
